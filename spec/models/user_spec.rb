@@ -21,7 +21,9 @@ RSpec.describe User, type: :model do
   it { should validate_length_of(:password).is_at_least(6) }
 
   describe 'uniqueness' do
-    FactoryGirl.create(:user)
+    before do
+      FactoryGirl.create(:user)
+    end
     it { should validate_uniqueness_of(:username) }
     it { should validate_uniqueness_of(:session_token) }
   end
@@ -50,14 +52,15 @@ RSpec.describe User, type: :model do
   end
 
   describe '::find_by_credentials' do
-    new_user = User.create(username: Faker::Name.name, password: '123456')
 
     it 'finds the user with valid credentials' do
+      new_user = User.create(username: Faker::Name.name, password: '123456')
       result = User.find_by_credentials(new_user.username, '123456')
       expect(result).to eq(new_user)
     end
 
     it 'returns nil with invalid credentials' do
+      new_user = User.create(username: Faker::Name.name, password: '123456')
       result = User.find_by_credentials('second_user', '123456')
       expect(result).to be(nil)
     end

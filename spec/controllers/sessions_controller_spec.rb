@@ -10,13 +10,17 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   describe "POST #create" do
-    user = User.create(username: "Something", password: "password")
+    before do
+      user = User.create(username: "Something", password: "password")
+    end
+
     context "with valid params" do
       it "redirects to somewhere.."
 
       it "signs user in and sets sesison token" do
         post :create, user: {username: "Something", password: "password"}
-        expect(session[:session_token]).to eq(User.last.session_token)
+        user = User.find_by_username("Something")
+        expect(session[:session_token]).to eq(user.session_token)
       end
     end
 
