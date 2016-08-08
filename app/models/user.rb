@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   after_initialize :ensure_session_token
   validates :password, length: { minimum: 6, allow_nil: true }
   validates :username, :session_token, uniqueness: true
+  has_many :goals
 
   attr_reader :password
 
