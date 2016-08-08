@@ -1,0 +1,6 @@
+<h1>Edit Goal</h1>
+
+<form action="<%= goal_url(@goal) %>" method="patch">
+  <%= render 'form', goal: @goal %>
+  <input type="submit" value="Update Goal">
+</form>

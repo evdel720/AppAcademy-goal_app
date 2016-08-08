@@ -1,0 +1,24 @@
+
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <label>Title:
+    <input type="text" name="goal[title]" value="<%= @goal.title %>">
+  </label>
+  <br>
+
+  <label>Details:
+    <textarea name="goal[details]"><%= @goal.details %></textarea>
+  </label>
+  <br>
+
+  <label>Private?
+    private <input type="radio" name="goal[private]", value="true" <%= "checked" if @goal.goal_private %>>
+    public <input type="radio" name="goal[private]", value="false" <%= "checked" unless @goal.goal_private %>>
+  </label>
+  <br>
+
+  <label>Completed?
+    yes <input type="radio" name="goal[completed]", value="true" <%= "checked" if @goal.completed %>>
+    no <input type="radio" name="goal[completed]" value="false" <%= "checked" unless @goal.completed %>>
+  </label>
+  <br>
