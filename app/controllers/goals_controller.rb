@@ -1,6 +1,6 @@
 class GoalsController < ApplicationController
   before_filter :require_user
-  before_filter :is_owner?, only: [:edit, :update]
+  before_filter :is_owner?, only: [:edit, :update, :destroy]
 
   def index
     @goals = Goal.all
@@ -39,6 +39,12 @@ class GoalsController < ApplicationController
       flash.now[:errors] = @goal.errors.full_messages
       render :edit
     end
+  end
+
+  def destroy
+    @goal = Goal.find_by(id: params[:id])
+    @goal.destroy
+    redirect_to goals_url
   end
 
 

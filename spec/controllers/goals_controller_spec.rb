@@ -200,38 +200,27 @@ RSpec.describe GoalsController, type: :controller do
   end
 
 
-  # describe "DELETE #destroy" do
-  #  let(:jack) { User.create!(username: 'jack_bruce', password: 'abcdef') }
-  #  let(:jill) { User.create!(username: 'jill', password: 'abcdef') }
-  #  let(:goal) { FactoryGirl.create(:goal, user: jack) }
-  #   before do
-  #     allow(controller).to receive(:current_user) { jack }
-  #   end
-  #
-  #   context "with valid params" do
-  #     it 'redirects to the show page' do
-  #       patch :update, id: goal.id, goal:{title: "Goal Title", details: "Goal Details", goal_private: true, completed: true }
-  #       expect(response).to redirect_to(goal_url(Goal.last))
-  #     end
-  #   end
-  #
-  #   context "with invalid params" do
-  #     it 'shows error messages' do
-  #       patch :update, id: goal.id, goal:{title: "Goal Title", details: nil, goal_private: false, completed: false }
-  #       expect(flash[:errors]).to be_present
-  #       expect(response).to render_template("edit")
-  #     end
-  #   end
-  #
-  #   context 'when logged out' do
-  #     before do
-  #       allow(controller).to receive(:current_user) { nil }
-  #     end
-  #
-  #     it 'redirects to new login page' do
-  #       patch :update, id: goal.id,  goal:{title: "Goal Title", details: "Goal Details", goal_private: false, completed: false }
-  #       expect(response).to redirect_to(new_session_url)
-  #     end
-  #   end
-  # end
+  describe "DELETE #destroy" do
+   let(:jack) { User.create!(username: 'jack_bruce', password: 'abcdef') }
+   let(:jill) { User.create!(username: 'jill', password: 'abcdef') }
+   let(:goal) { FactoryGirl.create(:goal, user: jack) }
+
+    context "logged in as owner" do
+      it 'deletes the goal successfully' do
+        allow(controller).to receive(:current_user) { jack }
+        delete :destroy, id: goal.id
+        expect(Goal.find_by(id: goal.id)).to be_nil
+        expect(response).to redirect_to(goals_url)
+      end
+    end
+
+    context "logged in as other user" do
+      it 'redirects to goals url' do
+        allow(controller).to receive(:current_user) { jill }
+        delete :destroy, id: goal.id
+        expect(Goal.find_by(id: goal.id)).not_to be_nil
+        expect(response).to redirect_to(goals_url)
+      end
+    end
+  end
 end
