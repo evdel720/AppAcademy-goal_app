@@ -1,0 +1,4 @@
+<h1><%=@goal.title%></h1>
+<%= @goal.details %>
+<%= link_to "Edit Goal", edit_goal_url(@goal) %>
+<%= link_to "Delete Goal", goal_url(@goal), method: :delete %>

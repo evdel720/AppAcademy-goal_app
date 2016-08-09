@@ -15,7 +15,10 @@ RSpec.describe SessionsController, type: :controller do
     end
 
     context "with valid params" do
-      it "redirects to somewhere.."
+      it "redirects to redirects to goal" do
+        post :create, user: {username: "Something", password: "password"}
+        expect(response).to redirect_to(goals_url)
+      end
 
       it "signs user in and sets sesison token" do
         post :create, user: {username: "Something", password: "password"}

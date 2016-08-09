@@ -11,7 +11,10 @@ RSpec.describe UsersController, type: :controller do
 
   describe "POST #create" do
     context "with valid params" do
-      it "redirects to somewhere.."
+      it "redirects to goals url" do
+        post :create, user: {username: "Something", password: "password"}
+        expect(response).to redirect_to(goals_url)
+      end
 
       it "signs user up and sets sesison token" do
         post :create, user: {username: "Something", password: "password"}
