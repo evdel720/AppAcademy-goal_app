@@ -3,7 +3,8 @@ class GoalsController < ApplicationController
   before_filter :is_owner?, only: [:edit, :update, :destroy]
 
   def index
-    @goals = Goal.all
+    @goals = Goal.where(goal_private: false)
+    @goals += Goal.where(user: current_user, goal_private: true)
   end
 
   def new
